@@ -1,7 +1,7 @@
 # Nginx-reverse-proxy-with-ssl-certificate
 
-- SITE LINK: **https://www.youtube.com/watch?v=ofBFl4M4BFk**
-- SITE LINK: **https://www.youtube.com/watch?v=hgLFNSelxAs**
+- NODE PROJECT SITE LINK: **https://www.youtube.com/watch?v=ofBFl4M4BFk**
+- TROUBLE SHOOTING SITE LINK: **https://www.youtube.com/watch?v=hgLFNSelxAs**
 
 
 # Node.js Deployment
