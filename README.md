@@ -167,29 +167,59 @@ Nginx proxy file path: /etc/nginx/conf.d/here youcan use .conf file   or  /etc/n
 
 **Nginx reverse proxy example for static files. hosting on server on /var/www/web directory**
     
-    server {
-        listen 80;
-        server_name examplewebsite.code-graphers.com;
-    
-        # Redirect all HTTP requests to HTTPS
-        return 301 https://$host$request_uri;
-    }
-    
-    server {
-        listen 443 ssl; # Managed by Certbot
-        server_name examplewebsite.code-graphers.com;
-    
-        root /var/www/web;  # Directory where your HTML and CSS files are located
-        index index.html;  # Default file to serve
-    
-        location / {
-            try_files $uri $uri/ =404 /index.html;
+        server {
+            if ($host = api.example.com) {
+                return 301 https://$host$request_uri;
+            } # managed by Certbot
+            listen 80;
+            server_name api.example.com;
+            # Redirect all HTTP requests to HTTPS
+            return 301 https://$host$request_uri;
         }
-    
-        ssl_certificate /etc/letsencrypt/live/examplewebsite.code-graphers.com/fullchain.pem; # Managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/examplewebsite.code-graphers.com/privkey.pem; # Managed by Certbot
-        include /etc/letsencrypt/options-ssl-nginx.conf; # Managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # Managed by Certbot
-    }
+        
+        server {
+            listen 443 ssl; # Managed by Certbot
+            server_name api.example.com;
+            root /var/www/web;  # Directory where your HTML and CSS files are located
+            index index.html;  # Default file to serve
+        
+            # Handle exact /api match
+            location = /api {
+                try_files $uri $uri/ =404;
+                # or return a specific response
+                # return 404;  # or any other response you want
+            }
+        
+            # Handle /api/* paths
+            location /api/ {
+                proxy_pass http://localhost:3000/;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                
+                client_max_body_size 50M;
+                proxy_read_timeout 600;
+                proxy_connect_timeout 600;
+                proxy_send_timeout 600;
+                
+                proxy_buffer_size 16k;
+                proxy_buffers 8 16k;
+                proxy_busy_buffers_size 32k;
+            }
+        
+            location / {
+                try_files $uri $uri/ =404;
+            }
+        
+            ssl_certificate /etc/letsencrypt/live/api.example.com/fullchain.pem; # managed by Certbot
+            ssl_certificate_key /etc/letsencrypt/live/api.example.com/privkey.pem; # managed by Certbot
+            include /etc/letsencrypt/options-ssl-nginx.conf; # Managed by Certbot
+            ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # Managed by Certbot
+        }
 
 
