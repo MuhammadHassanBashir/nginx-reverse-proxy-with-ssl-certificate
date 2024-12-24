@@ -2,6 +2,7 @@
 
 - NODE PROJECT SITE LINK: **https://www.youtube.com/watch?v=ofBFl4M4BFk**
 - TROUBLE SHOOTING SITE LINK: **https://www.youtube.com/watch?v=hgLFNSelxAs**
+- Node project site plus reverse proxy plus SSL: **https://webdock.io/en/docs/how-guides/app-installation-and-setup/how-use-nginx-reverse-proxy-and-secure-connections-ssl-certificates?srsltid=AfmBOoo1ZLnvQEZ8MwLwM5UmHg3jVb9nPY40fP2_dqO5nBJXg0vYtCl4**
 
 
 # Node.js Deployment
