@@ -1,7 +1,7 @@
 # Nginx-reverse-proxy-with-ssl-certificate
 
-SITE LINK: **https://www.youtube.com/watch?v=ofBFl4M4BFk**
-SITE LINK: **https://www.youtube.com/watch?v=hgLFNSelxAs**
+- SITE LINK: **https://www.youtube.com/watch?v=ofBFl4M4BFk**
+- SITE LINK: **https://www.youtube.com/watch?v=hgLFNSelxAs**
 
 
 # Node.js Deployment
@@ -142,6 +142,43 @@ or
 
 here you can see logs under **access.log and error.log**
 
+
 - **sudo tail -f access.log**  --> use -f with command for checking the live logs. mean browser sa jo b hit arhi hogi upstream(nginx reverse) usky live logs ap yha dekh sakhty hn..
 
 - **sudo tail -f error.log**  --> use -f with command for checking the live error logs. mean browser sa jo b hit arhi hogi upstream(nginx reverse) usky live error logs ap yha dekh sakhty hn..
+
+
+
+Example for SSL:
+---------------
+
+Nginx proxy file path: /etc/nginx/conf.d/here youcan use .conf file   or  /etc/nginx/site-enabled/here youcan use .conf file
+
+**Nginx reverse proxy example for static files. hosting on server on /var/www/web directory**
+    
+    server {
+        listen 80;
+        server_name examplewebsite.code-graphers.com;
+    
+        # Redirect all HTTP requests to HTTPS
+        return 301 https://$host$request_uri;
+    }
+    
+    server {
+        listen 443 ssl; # Managed by Certbot
+        server_name examplewebsite.code-graphers.com;
+    
+        root /var/www/web;  # Directory where your HTML and CSS files are located
+        index index.html;  # Default file to serve
+    
+        location / {
+            try_files $uri $uri/ =404 /index.html;
+        }
+    
+        ssl_certificate /etc/letsencrypt/live/examplewebsite.code-graphers.com/fullchain.pem; # Managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/examplewebsite.code-graphers.com/privkey.pem; # Managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # Managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # Managed by Certbot
+    }
+
+
