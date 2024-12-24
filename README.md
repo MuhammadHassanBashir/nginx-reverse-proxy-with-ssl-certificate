@@ -90,3 +90,58 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 # Only valid for 90 days, test the renewal process with
 certbot renew --dry-run
 ```
+
+
+
+Details about nginx proxy
+-------------------------
+
+- In computer networking, a proxy server is a server application that acts an intermediary b/w a client requesting a resource and the server providing that resource.
+
+- A proxy service which takes a client request, passes it on to one or more servers.
+
+- Proxying is typically used to distribute the load among several servers, 
+
+- Seamlessly show content from different websites.
+
+- or pass requests for processing to application servers over protocols other than HTTP.
+
+
+Changes in the conf
+-------------------
+
+        Config Location: /etc/nginx/nginx.conf
+        
+        location /some/path/ {
+        
+            proxy_pass http://www.example.com/link/;
+        
+        }
+        
+        like:
+        
+        
+        location / {
+        
+            proxy_pass http://127.0.0.1:8080/;   or proxy_pass http://localhost:8080/; 
+         
+        }
+
+Troubleshooting
+---------------
+
+You need to check logs in case of troubleshooting..
+
+like nginx k logs.. /var/log/nginx/ ma hoty hn.. to see logs use below command..
+
+**sudo cat /var/log/audit/audit.log | grep nginx | grep denied**
+
+or 
+
+sudo /var/log/nginx/
+
+here you can see logs under **access.log and error.log**
+
+- **sudo tail -f access.log**  --> use -f with command for checking the live logs. mean browser sa jo b hit arhi hogi upstream(nginx reverse) usky live logs ap yha dekh sakhty hn..
+
+sudo tail -f error.log  --> use -f with command for checking the live error logs. mean browser sa jo b hit arhi hogi upstream(nginx reverse) usky live error logs ap yha dekh sakhty hn..
