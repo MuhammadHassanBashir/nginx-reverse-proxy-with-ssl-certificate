@@ -132,16 +132,16 @@ Troubleshooting
 
 You need to check logs in case of troubleshooting..
 
-like nginx k logs.. /var/log/nginx/ ma hoty hn.. to see logs use below command..
+like nginx k logs.. **/var/log/nginx/** ma hoty hn.. to see logs use below command..
 
 **sudo cat /var/log/audit/audit.log | grep nginx | grep denied**
 
 or 
 
-sudo /var/log/nginx/
+**sudo /var/log/nginx/**
 
 here you can see logs under **access.log and error.log**
 
 - **sudo tail -f access.log**  --> use -f with command for checking the live logs. mean browser sa jo b hit arhi hogi upstream(nginx reverse) usky live logs ap yha dekh sakhty hn..
 
-sudo tail -f error.log  --> use -f with command for checking the live error logs. mean browser sa jo b hit arhi hogi upstream(nginx reverse) usky live error logs ap yha dekh sakhty hn..
+- **sudo tail -f error.log**  --> use -f with command for checking the live error logs. mean browser sa jo b hit arhi hogi upstream(nginx reverse) usky live error logs ap yha dekh sakhty hn..
