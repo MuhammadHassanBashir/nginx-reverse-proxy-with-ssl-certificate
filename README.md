@@ -14,34 +14,44 @@ Create free AWS Account at https://aws.amazon.com/
 ## 2. Create and Lauch an EC2 instance and SSH into machine
 I would be creating a t2.medium ubuntu machine for this demo.
 
-## 3. Install Node and NPM
-```
+
+## UPDATE THE REQUIRE PACKAGES
+
+- sudo apt-get update
+
+## INSTALL NODE JS PACKAGE ON SERVER, IT WILL HELP YOU ON INSTALLING DEPENDENCIES FOR NODE JS CODE.
+
 curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install nodejs
 
 node --version
-```
 
-## 4. Clone your project from Github
-```
+## Clone your project from Github
+
 git clone https://github.com/piyushgargdev-01/short-url-nodejs
-```
 
-## 5. Install dependencies and test app
-```
+cd cloned-folder
+
+## Now install dependencies for nodejs code.
+
+npm install
+
+cd .. 
+
+## Install pm2 with npm and start the process with pm2
+
 sudo npm i pm2 -g
-pm2 start index
+cd "code folder"
+pm2 start index.js
+pm2 logs ~all
+pm2 restart <application name> or all(incase of all application)  --> use this incase of issue
+pm2 logs ~all
 
-# Other pm2 commands
-pm2 show app
-pm2 status
-pm2 restart app
-pm2 stop app
-pm2 logs (Show log stream)
-pm2 flush (Clear logs)
 
-# To make sure app starts when reboot
-pm2 startup ubuntu
+now you will see that your application is running... if you are running application on ec2 install then open the port on SG on which the code is running. then traffic like <ec2 instance public-ip>:<code-port> 
+
+remember hmra code directly server per run horha ha..
+
 ```
 
 ## 6. Setup Firewall
@@ -53,13 +63,13 @@ sudo ufw allow http (Port 80)
 sudo ufw allow https (Port 443)
 ```
 
-## 7. Install NGINX and configure
+## 7. Install NGINX and do nginx reverse proxy configuration
 ```
 sudo apt install nginx
 
-sudo nano /etc/nginx/sites-available/default
+sudo nano /etc/nginx/sites-available/default  
 ```
-Add the following to the location part of the server block
+Add the following to the location part of the server block             **ab because traffic 80 or 443 sa instance per arhi hogi tu mujy in ports ko instance k SG sa open krna hoga. **
 ```
     server_name yourdomain.com www.yourdomain.com;
 
